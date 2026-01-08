@@ -4,7 +4,7 @@
 
 Even though Neo4j is already well supported in **LangChain**, this project exists because **LangGraph and LangChain solve different problems**, and Neo4j unlocks *additional capabilities specifically at the LangGraph level*.
 
----
+
 
 ## Why does this exist if Neo4j is already supported in LangChain?
 
@@ -28,14 +28,12 @@ LangGraph, instead, is about:
 
 `langgraph-neo4j` lives **one level lower** in the stack.
 
----
 
-## The Missing Layer
 
-Today:
+## The Missing stuff
 
 | Layer | Neo4j Support |
-|----|----|
+|-|-|
 | Data / Retrieval (LangChain) | ✅ Yes |
 | Knowledge Graphs | ✅ Yes |
 | Vector Stores | ✅ Yes |
@@ -47,7 +45,7 @@ Today:
 
 `langgraph-neo4j` fills this gap.
 
----
+
 
 ## Why not just reuse LangChain memory?
 
@@ -65,7 +63,7 @@ LangGraph state:
 
 Neo4j is uniquely suited to model **state + transitions + decisions**.
 
----
+
 
 ## Checkpointing
 
@@ -106,7 +104,7 @@ with RedisSaver.from_conn_string(REDIS_URI) as checkpointer:
 * Postgres:
   [https://github.com/langchain-ai/langgraph/tree/main/libs/checkpoint-postgres](https://github.com/langchain-ai/langgraph/tree/main/libs/checkpoint-postgres)
 
----
+
 
 ## Neo4j Checkpointing (Proposed)
 
@@ -130,7 +128,7 @@ with Neo4jSaver.from_uri(
     )
 ```
 
----
+
 
 ## Why Neo4j instead of Redis or SQL?
 
@@ -165,7 +163,7 @@ This enables:
 * Auditing and explainability
 * Visualization of agent behavior
 
----
+
 
 ## Agent Memory (Beyond LangChain Memory)
 
@@ -183,7 +181,7 @@ Memory types:
 * Semantic (vector embeddings)
 * Procedural (routing patterns)
 
----
+
 
 ## GraphRAG as a First-Class Workflow Pattern
 
@@ -202,7 +200,7 @@ LangChain already supports GraphRAG.
 
 The graph is both **knowledge** and **control plane**.
 
----
+
 
 ## Dynamic Routing via Neo4j
 
@@ -223,7 +221,7 @@ Neo4j decides:
 
 LangGraph executes the decision.
 
----
+
 
 ## Multi-Agent Orchestration
 
@@ -243,7 +241,7 @@ Benefits:
 * Transparent execution graphs
 * Easier debugging and evolution
 
----
+
 
 ## Streaming-Friendly by Design
 
@@ -257,7 +255,7 @@ Works naturally with:
 * WebSockets
 * React / React Native clients
 
----
+
 
 ## Observability and Replay
 
@@ -270,7 +268,7 @@ Because everything is a graph:
 
 This is impossible with key-value stores.
 
----
+
 
 ## Summary
 
@@ -281,16 +279,13 @@ This is impossible with key-value stores.
 * Checkpoints are more than snapshots
 * Agent systems need **explainability and auditability**
 
-> **LangChain + Neo4j = knowledge**
-> **LangGraph + Neo4j = runtime intelligence**
+- **LangChain + Neo4j = knowledge**
+- **LangGraph + Neo4j = runtime intelligence**
 
----
 
-## Status
 
-🚧 Concept / design proposal
 
----
+
 
 ## Related Projects
 

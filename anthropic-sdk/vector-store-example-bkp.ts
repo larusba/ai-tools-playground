@@ -30,4 +30,3 @@ const agent = new Agent({
 const response = await agent.run("Trova le informazioni più rilevanti sul mio documento");
 console.log(response);
 
-// TODO ----> https://chatgpt.com/c/69529530-5714-832d-9686-0360e0856db9

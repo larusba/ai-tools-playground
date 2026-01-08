@@ -1,13 +1,12 @@
 # OpenAI Agents + Neo4j Full Demo
 
-# TODO
-CHECK OTHER STUFF, AND MISSING STUFF
-- https://chatgpt.com/c/693c391c-6040-832b-b66e-1b217dfb5a46
+MISSING THINGS:
 
+- [ ] Text2Cypher: could be used neo4j-graphrag-python package instead
+- [ ] GraphRAG concept: could be used neo4j-graphrag-python package instead
+- [ ] Chat memory: could be used neo4j-graphrag-python package instead
+- [ ] Knowledge Graph Construction: could be used neo4j-graphrag-python package instead (https://neo4j.com/docs/neo4j-graphrag-python/current/user_guide_rag.html#text2cypher-retriever-user-guide)
 
-This project is a complete demo integrating the OpenAI Agents Python SDK with Neo4j, featuring **Vector-RAG**, **GraphRAG**, **Chat Memory**, and an **MCP Server**.
-
-TODO --> says that we can use neo4j-graphrag-python package instead: https://github.com/neo4j/neo4j-graphrag-python
 
 ## Project Structure
 

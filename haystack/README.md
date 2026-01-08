@@ -1,8 +1,6 @@
-# TODO
+# Haystack
 
-### TODO - examples?
-
-MISSING THINGS:
+Source code: https://github.com/prosto/neo4j-haystack
 
 - [ ] the readme.md is not working correctly, update it
 - [ ] Hybrid search
