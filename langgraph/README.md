@@ -4,67 +4,6 @@
 
 Even though Neo4j is already well supported in **LangChain**, this project exists because **LangGraph and LangChain solve different problems**, and Neo4j unlocks *additional capabilities specifically at the LangGraph level*.
 
-
-
-## Why does this exist if Neo4j is already supported in LangChain?
-
-LangChain’s Neo4j integrations focus on:
-
-- Retrieval (vector search, GraphRAG)
-- Knowledge graph construction
-- Memory abstractions
-- Querying Neo4j as a data source
-
-LangGraph, instead, is about:
-
-- **Execution control**
-- **State machines**
-- **Loops and conditionals**
-- **Agent orchestration**
-- **Checkpointing and recovery**
-
-> **LangChain uses Neo4j as data.  
-> LangGraph can use Neo4j as runtime state.**
-
-`langgraph-neo4j` lives **one level lower** in the stack.
-
-
-
-## The Missing stuff
-
-| Layer | Neo4j Support |
-|-|-|
-| Data / Retrieval (LangChain) | ✅ Yes |
-| Knowledge Graphs | ✅ Yes |
-| Vector Stores | ✅ Yes |
-| Agent Memory (LangChain) | ✅ Yes |
-| **Workflow State (LangGraph)** | ❌ No |
-| **Checkpointing (LangGraph)** | ❌ No |
-| **Execution Graph Persistence** | ❌ No |
-| **Multi-agent orchestration backend** | ❌ No |
-
-`langgraph-neo4j` fills this gap.
-
-
-
-## Why not just reuse LangChain memory?
-
-LangChain memory:
-- Is typically **append-only**
-- Is often **per-agent**
-- Does not represent execution flow
-- Does not model control decisions
-
-LangGraph state:
-- Evolves step-by-step
-- Drives conditional routing
-- Requires checkpoints
-- Must be resumable and inspectable
-
-Neo4j is uniquely suited to model **state + transitions + decisions**.
-
-
-
 ## Checkpointing
 
 LangGraph supports pluggable checkpoint backends.
@@ -162,6 +101,68 @@ This enables:
 * Graph-level debugging
 * Auditing and explainability
 * Visualization of agent behavior
+
+
+
+
+## Why does this exist if Neo4j is already supported in LangChain?
+
+LangChain’s Neo4j integrations focus on:
+
+- Retrieval (vector search, GraphRAG)
+- Knowledge graph construction
+- Memory abstractions
+- Querying Neo4j as a data source
+
+LangGraph, instead, is about:
+
+- **Execution control**
+- **State machines**
+- **Loops and conditionals**
+- **Agent orchestration**
+- **Checkpointing and recovery**
+
+> **LangChain uses Neo4j as data.  
+> LangGraph can use Neo4j as runtime state.**
+
+`langgraph-neo4j` lives **one level lower** in the stack.
+
+
+
+## The Missing stuff
+
+| Layer | Neo4j Support |
+|-|-|
+| Data / Retrieval (LangChain) | ✅ Yes |
+| Knowledge Graphs | ✅ Yes |
+| Vector Stores | ✅ Yes |
+| Agent Memory (LangChain) | ✅ Yes |
+| **Workflow State (LangGraph)** | ❌ No |
+| **Checkpointing (LangGraph)** | ❌ No |
+| **Execution Graph Persistence** | ❌ No |
+| **Multi-agent orchestration backend** | ❌ No |
+
+`langgraph-neo4j` fills this gap.
+
+
+
+## Why not just reuse LangChain memory?
+
+LangChain memory:
+- Is typically **append-only**
+- Is often **per-agent**
+- Does not represent execution flow
+- Does not model control decisions
+
+LangGraph state:
+- Evolves step-by-step
+- Drives conditional routing
+- Requires checkpoints
+- Must be resumable and inspectable
+
+Neo4j is uniquely suited to model **state + transitions + decisions**.
+
+
 
 
 
