@@ -1,8 +1,19 @@
-## Anthropic (Claude) SDK + Neo4j
+# Anthropic (Claude) SDK + Neo4j
 
 This document summarizes how **Anthropic Claude (Agent SDK + MCP)** can be integrated with **Neo4j**, clarifying what is supported natively, what is not, and which external tools (MCP servers) enable advanced use cases such as GraphRAG and persistent graph memory.
 
----
+
+## Missing stuff
+
+| Capability      | Native in Claude | Via MCP + Neo4j |
+|--||--|
+| Vector Store    | ❌               | ❌ (external DB required) |
+| MCP Support     | ✅               | ✅ |
+| Chat Memory     | ⚠️ (short-term) | ✅ (persistent graph memory) |
+| GraphRAG        | ❌               | ✅ (custom architecture) |
+
+
+
 
 ## Anthropic SDK
 
@@ -16,7 +27,7 @@ This document summarizes how **Anthropic Claude (Agent SDK + MCP)** can be integ
 
 Those capabilities are enabled via **Model Context Protocol (MCP)** and external tools.
 
----
+
 
 ## Vector Store
 
@@ -35,7 +46,7 @@ If you need RAG or semantic retrieval:
 
 Claude acts as the **reasoning and orchestration layer**, not as the data store.
 
----
+
 
 ## MCP (Model Context Protocol)
 
@@ -56,7 +67,7 @@ With MCP, Claude can:
 
 Anthropic Claude (including Claude Agent SDK and Claude Desktop) can connect to **existing MCP servers** without writing custom clients.
 
----
+
 
 ## Chat Memory
 
@@ -75,7 +86,7 @@ To implement chat memory:
 - Expose it via MCP as a tool (e.g. `store_memory`, `retrieve_memory`).
 - Let the agent decide when to read/write memory.
 
----
+
 
 ## GraphRAG
 
@@ -99,7 +110,7 @@ Claude does **not** provide:
 
 These must be implemented externally and connected via MCP.
 
----
+
 
 ## Neo4j + MCP
 
@@ -125,7 +136,7 @@ Supported transports:
 - `stdio` (local development, Claude Desktop),
 - `http` (production, remote agents).
 
----
+
 
 ## Using Neo4j MCP with Claude
 
@@ -144,7 +155,7 @@ Example capabilities:
 - “Create a Project node and link Bob as owner.”
 - “Retrieve the subgraph related to this topic and summarize it.”
 
----
+
 
 ## Neo4j as Graph Memory
 
@@ -159,18 +170,9 @@ Typical pattern:
 - Future queries retrieve relevant subgraphs as context.
 - Claude generates responses grounded in graph data.
 
----
 
-## Summary Table
 
-| Capability      | Native in Claude | Via MCP + Neo4j |
-|-----------------|------------------|-----------------|
-| Vector Store    | ❌               | ❌ (external DB required) |
-| MCP Support     | ✅               | ✅ |
-| Chat Memory     | ⚠️ (short-term) | ✅ (persistent graph memory) |
-| GraphRAG        | ❌               | ✅ (custom architecture) |
 
----
 
 ## Key Takeaway
 
