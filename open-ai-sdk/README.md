@@ -1,6 +1,6 @@
 # OpenAI Agents + Neo4j Full Demo
 
-MISSING THINGS:
+## MISSING THINGS:
 
 - [ ] Text2Cypher: could be used neo4j-graphrag-python package instead
 - [ ] GraphRAG concept: could be used neo4j-graphrag-python package instead
@@ -25,7 +25,7 @@ demo_full_functional/
 └── sample_data/docs.jsonl    # Example documents for ingestion
 ```
 
-## Features
+## Examples
 
 * **Vector Retrieval / RAG**: semantic search on documents using OpenAI embeddings
 * **GraphRAG**: query entities and relationships via Neo4j
