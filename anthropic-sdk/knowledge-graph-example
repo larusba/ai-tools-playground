@@ -1,0 +1,27 @@
+import { Agent, Tool } from "@anthropic/claude-agent-sdk";
+import neo4j from "neo4j-driver";
+
+// Configure Neo4j driver
+const driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("neo4j", "password"));
+const session = driver.session();
+
+// Tool to interrogate the grapg
+const graphQueryTool: Tool = {
+  name: "graph-query",
+  description: "Esegui query Cypher sul knowledge graph",
+  run: async (query: string) => {
+    const result = await session.run(query);
+    return result.records.map(r => r.toObject()).map(obj => JSON.stringify(obj)).join("\n");
+  },
+};
+
+// create agent
+const agent = new Agent({
+  tools: [graphQueryTool],
+});
+
+// usage example: ask agent graph info
+const response = await agent.run(`
+Trova tutti i clienti che hanno acquistato più di 5 prodotti e riportami nome e email
+`);
+console.log(response);
