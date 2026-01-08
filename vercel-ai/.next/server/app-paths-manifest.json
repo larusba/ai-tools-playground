@@ -1,0 +1,4 @@
+{
+  "/page": "app/page.js",
+  "/api/vector-rag/route": "app/api/vector-rag/route.js"
+}

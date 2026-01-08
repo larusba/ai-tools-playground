@@ -1,0 +1,27 @@
+{
+  "name": "vercel-neo4j-ai-openai",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "14.2.35",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "ai": "6.0.3",
+    "@ai-sdk/openai": "3.0.1",
+    "neo4j-driver": "^5.14.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.6",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.6",
+    "eslint": "^8.47.0",
+    "eslint-config-next": "^14.2.35",
+    "typescript": "^5.2.2"
+  }
+}
