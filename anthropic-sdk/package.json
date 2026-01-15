@@ -8,8 +8,8 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.0",
     "neo4j-driver": "^5.20.0",
-    "@testcontainers/neo4j": "^10.13.2",
-    "testcontainers": "^10.13.2"
+    "@testcontainers/neo4j": "^11.11.0",
+    "testcontainers": "^11.11.0"
   },
   "devDependencies": {
     "tsx": "^4.7.0",
