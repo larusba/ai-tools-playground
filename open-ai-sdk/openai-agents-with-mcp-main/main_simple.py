@@ -21,10 +21,10 @@ async def interactive_main():
             # "args": ["mcp-neo4j-cypher@0.3.0", "--transport", "stdio"],
             "args": [],
             "env": {
-                "NEO4J_URI": "neo4j+s://demo.neo4jlabs.com",
-                "NEO4J_USERNAME": "recommendations",
-                "NEO4J_PASSWORD": "recommendations",
-                "NEO4J_DATABASE": "recommendations"
+                "NEO4J_URI": "neo4j+s://demo.neo4jlabs.com:7687",
+                "NEO4J_USERNAME": "companies",
+                "NEO4J_PASSWORD": "companies",
+                "NEO4J_DATABASE": "companies"
 
                 # "NEO4J_TRANSPORT": "stdio"
             }
