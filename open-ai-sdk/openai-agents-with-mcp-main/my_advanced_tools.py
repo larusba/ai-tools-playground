@@ -1,50 +1,65 @@
 from fastmcp import FastMCP
 from neo4j import GraphDatabase
 import os
+import sys
 
-# Definiamo il server
+# Initialize the Custom MCP Server
 mcp = FastMCP("Neo4j Advanced Tools")
 
-# Funzione helper per ottenere il driver solo quando serve
 def get_driver():
+    """Lazily initializes the Neo4j driver to avoid startup crashes."""
     uri = os.getenv("NEO4J_URI")
     user = os.getenv("NEO4J_USERNAME")
     password = os.getenv("NEO4J_PASSWORD")
-
-    print(f"Connessione a Neo4j con URI: {uri}", file=os.sys.stderr)  # Log su stderr
-    print(f"Utente Neo4j: {user}", file=os.sys.stderr)  # Log su stderr
-    print(f"Password Neo4j: {password}", file=os.sys.stderr)  # Log su stderr
-
+    
     if not uri or not user or not password:
-        raise ValueError("Variabili d'ambiente NEO4J mancanti")
+        raise ValueError("Missing Neo4j environment variables (URI, USERNAME, or PASSWORD).")
         
     return GraphDatabase.driver(uri, auth=(user, password))
 
 @mcp.tool
 def graph_rag_search(question: str) -> str:
-    """Esegue una ricerca complessa su Neo4j."""
+    """
+    Executes a GraphRAG (Graph Retrieval-Augmented Generation) search.
+    Use this tool for complex analysis, finding similar entities, or exploring 
+    competitor landscapes where simple lookups are insufficient.
+    """
     try:
-        # Ottieni il driver qui dentro, così se fallisce non crasha l'intero server all'avvio
         driver = get_driver()
+        db_name = os.getenv("NEO4J_DATABASE", "neo4j")
         
-        cypher = """
-        MATCH (n:Company) 
-        WHERE n.description CONTAINS $keyword
-        RETURN n.name as Azienda
-        LIMIT 3
+        # NOTE: In a real production scenario, you would generate embeddings here 
+        # using the 'question' and OpenAI API, then use vector search in Neo4j.
+        
+        # Simulated complex logic for demonstration:
+        cypher_query = """
+        MATCH (c:Company) 
+        WHERE toLower(c.name) CONTAINS toLower($keyword) 
+           OR toLower(c.description) CONTAINS toLower($keyword)
+        
+        OPTIONAL MATCH (c)-[:COMPETES_WITH]->(competitor)
+        
+        RETURN c.name AS Company, 
+               c.description AS Description, 
+               collect(competitor.name) AS Competitors
+        LIMIT 5
         """
+        
+        # Simple keyword extraction for simulation purposes
         keyword = question.split()[-1] if question else ""
         
-        with driver.session() as session:
-            result = session.run(cypher, keyword=keyword)
-            data = [dict(r) for r in result]
-            return str(data)
+        with driver.session(database=db_name) as session:
+            result = session.run(cypher_query, keyword=keyword)
+            data = [dict(record) for record in result]
+            
+        if not data:
+            return f"No results found in the graph for keyword: '{keyword}'."
+            
+        return str(data)
             
     except Exception as e:
-        return f"Errore durante l'esecuzione: {str(e)}"
+        return f"Error executing GraphRAG search: {str(e)}"
 
 if __name__ == "__main__":
-    # IMPORTANTE: A volte FastMCP prova a lanciare un server HTTP se non specificato.
-    # Forziamo stdio per essere sicuri che funzioni con l'agente.
-    print("Avvio server MCP Custom...", file=os.sys.stderr) # Stampa su stderr per non rompere il protocollo
+    # Force stdio transport for compatibility with the OpenAI Python SDK agent
     mcp.run(transport="stdio")

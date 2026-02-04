@@ -1,51 +1,3 @@
--- # TODO
-
-- [ ] TODO: permette di fare dei custom tools
-- [ ] /Users/giuseppevillani/Documents/Projects/vercel-ai-sdk/open-ai-sdk
-- [ ] https://milvus.io/docs/openai_agents_milvus.md	
-- [ ] MCP: https://github.com/lastmile-ai/openai-agents-mcp
-- [ ] https://openai.github.io/openai-agents-python/tools/
-- [ ] vector store qdrant: https://github.com/openai/openai-knowledge-retrieval?utm_source=chatgpt.com
-- [ ] https://github.com/openai/openai-agents-python/blob/main/examples/memory/redis_session_example.py
-- [ ] https://github.com/openai/openai-knowledge-retrieval
-- [ ] https://github.com/openai/openai-agents-python
-- [ ] https://github.com/rafaelpierre/openai-agents-redis
-    - [ ] simile a https://github.com/neo4j-contrib/mcp-neo4j
--     
-- [ ] https://github.dev/jalakoo/openai-agents-with-mcp
-- [ ] https://docs.google.com/document/d/1_g8r5qp0CXNv6B7H829gUlKN5wU_IAo4wXprYZuZuiQ/edit?tab=t.0#heading=h.wlhmggl3qhhv
-- [ ] https://github.com/neo4j-contrib/mcp-neo4j/tree/main/servers/mcp-neo4j-cypher
-- [ ] https://dev.to/composiodev/openai-agents-sdk-a-step-by-step-guide-to-building-real-world-mcp-agents-with-composio-4f92
-- [ ] fare un file tipo questo: https://github.com/neo4j-examples/neo4j-gcp-vertex-ai-langchain/blob/main/toolbox-companies/tools.yaml
-- 
-
-
-----> As a reminder - Agent tools can be Python functions, or Vertex AI Extensions, or MCP Server tools.
-
-
-# TODO - STEPS TO DO:
-- https://github.com/neo4j-contrib/mcp-neo4j/tree/main/servers/mcp-neo4j-cypher#multiple-database-example
-
-
-# TODO - STEPS DONE:
-- git clone https://github.com/neo4j/mcp.git
-
-
-# TODO - scrivere sull'excel
-- questo non va, ci vuole npx invece di uvx come invece detto su TODO
-```
-"neo4j-database": {
-      "command": "uvx",
-      "args": [ "mcp-neo4j-cypher@0.5.2", "--transport", "stdio"  ],
-      "env": {
-        "NEO4J_URI": "bolt://localhost:7687",
-        "NEO4J_USERNAME": "neo4j",
-        "NEO4J_PASSWORD": "<your-password>",
-        "NEO4J_DATABASE": "neo4j"
-      }
-    }
-```
-
 
 # OpenAI Agents + Neo4j Full Demo
 
@@ -116,9 +68,62 @@ docker compose exec app python agent/agent_app.py
 
 Type your questions; the `semantic_search` tool will be used to provide answers based on the documents.
 
+
+6. For the MCP examples using the official Neo4j MCP Server see [here](openai-agents-with-mcp-main/README.md)
+
 ## Notes
 
 * All components are containerized with Docker for easy startup and isolation.
 * The ingestion script generates embeddings for Vector-RAG using the model specified in `.env`.
 * Chat sessions are persisted in Neo4j for multi-turn conversations.
 * The MCP Server allows agents to dynamically execute Cypher queries.
+
+
+-----
+-----
+-----
+-----
+-----
+
+
+
+### Additional considerations and sources
+
+#### Sources
+
+- [ ] https://milvus.io/docs/openai_agents_milvus.md	
+- [ ] MCP: https://github.com/lastmile-ai/openai-agents-mcp
+- [ ] https://openai.github.io/openai-agents-python/tools/
+- [ ] vector store qdrant: https://github.com/openai/openai-knowledge-retrieval?utm_source=chatgpt.com
+- [ ] https://github.com/openai/openai-agents-python/blob/main/examples/memory/redis_session_example.py
+- [ ] https://github.com/openai/openai-knowledge-retrieval
+- [ ] https://github.com/openai/openai-agents-python
+- [ ] https://github.com/rafaelpierre/openai-agents-redis
+    - [ ] similar to https://github.com/neo4j-contrib/mcp-neo4j
+-     
+- [ ] https://github.dev/jalakoo/openai-agents-with-mcp
+- [ ] https://docs.google.com/document/d/1_g8r5qp0CXNv6B7H829gUlKN5wU_IAo4wXprYZuZuiQ/edit?tab=t.0#heading=h.wlhmggl3qhhv
+- [ ] https://github.com/neo4j-contrib/mcp-neo4j/tree/main/servers/mcp-neo4j-cypher
+- [ ] https://dev.to/composiodev/openai-agents-sdk-a-step-by-step-guide-to-building-real-world-mcp-agents-with-composio-4f92
+- [ ] fare un file tipo questo: https://github.com/neo4j-examples/neo4j-gcp-vertex-ai-langchain/blob/main/toolbox-companies/tools.yaml
+
+
+
+----> As a reminder - Agent tools can be Python functions, or Vertex AI Extensions, or MCP Server tools.
+
+
+#### considerations
+- this one does't work, used the neo4j-mcp
+```
+"neo4j-database": {
+      "command": "uvx",
+      "args": [ "mcp-neo4j-cypher@0.5.2", "--transport", "stdio"  ],
+      "env": {
+        "NEO4J_URI": "bolt://localhost:7687",
+        "NEO4J_USERNAME": "neo4j",
+        "NEO4J_PASSWORD": "<your-password>",
+        "NEO4J_DATABASE": "neo4j"
+      }
+    }
+```
+
