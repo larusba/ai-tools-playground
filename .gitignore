@@ -6,3 +6,4 @@ dist/
 .vscode/
 .next
 open-ai-sdk/openai-agents-with-mcp-main/neo4j
+.venv/

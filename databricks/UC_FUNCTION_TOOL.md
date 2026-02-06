@@ -3,7 +3,7 @@
 ## Introduction
 
 This guide demonstrates how to connect to a **Neo4j database** directly from **Databricks Unity Catalog (UC) Functions**.  
-The setup allows you to query a Neo4j graph, such as the `companies` dataset on Neo4j Labs, directly from Databricks notebooks or agents without using MCP.  
+The setup allows you to query a remote Neo4j graph, directly from Databricks notebooks or agents without using a dedicated Neo4j MCP server.  
 
 By following this guide, you can expose Neo4j queries as UC Functions callable from Python in Databricks (Tools), enabling integration with LLM agents or other workflows.
 
@@ -15,7 +15,7 @@ The example shows a simple Agent implementation that returns the competitors for
 
 -> Databricks Agent / Notebook
 
--> UC Function (Python)
+-> UC Function (Python) as Tools
 
 -> Neo4j REST API
 
@@ -24,7 +24,7 @@ The example shows a simple Agent implementation that returns the competitors for
 ## Key points:
 
 - UC Functions encapsulate the query logic and handle HTTP calls to Neo4j.
-- No MCP server is required; the LLM or agent interacts with UC Functions.
+- No MCP server is required; the LLM or agent interacts with UC Functions as Tools.
 - The Neo4j connection is secured using basic auth or other credentials.
 
 ## Advantages
@@ -38,18 +38,22 @@ The example shows a simple Agent implementation that returns the competitors for
 ## Limitations
 
 - Python/SQL only (no direct Cypher in UC functions)
-- Must wrap Neo4j driver calls in functions using HTTP, serverless functions do not give the possibility to install python dependencies outside of a notebook
-- Connection credentials must be managed via dbutils.secrets
+- Must wrap Neo4j driver calls in functions using HTTP, serverless functions do not give the possibility to use python dependencies outside of a notebook
+- Connection credentials must be hardcoded in the UC Function, dbutils is not available inside the UC function - it's an architectural limitation. Unity Catalog functions don't have access to:
+  - dbutils (including secrets)
+  - Notebook session variables
+  - Databricks SDK authentication context
 
 ## Prerequisites
 
 - Databricks Subscription (Trial version with free initial credit works, but a payment method must be set for LLMs to work)
+- Create a Databricks Token from your personal area, under Developer -> Access Tokens.
 
 ## Implementation
 
 ### Step 1 - Create one or more UC Functions
 
-Create a new `Notebook` in your `Workspace` and define the following cells
+Create a new `Notebook` in your `Workspace` and define the following cells, here we are defining a UC function to retrieve the competitors of a given company, this funciton will act as a tool for the LLM.
 
 ```
 %sql
@@ -76,7 +80,7 @@ import base64
 import json
 
 url = "https://demo.neo4jlabs.com:7473/db/companies/tx/commit"
-# Use Databricks secrets instead (dbutils.secrets)
+# Databricks secrets (dbutils.secrets) are not available outside of the notebook, therefore, they cannot be used in a serverless UC Function
 auth = base64.b64encode(b"companies:companies").decode()
 
 headers = {
@@ -114,11 +118,11 @@ SELECT knowledge_graph.company_data.find_competitors(
 );
 ```
 
-Once the Notebook cells are ran and the test works as expected, you will find your UC function listed in your `Catalog`, now we are ready to use it as a tool for our Agent.
+Once the Notebook cells are ran and the test works as expected, the UC function will be listed in the `Catalog`, now we are ready to use it as a tool for our Agent.
 
 ### Step 2 - Playground Test & Deploy
 
-In the `Playground` select our new UC function from `Tools -> Add Tool`, add a System Prompt like the following and start asking your first question: "What are the competitors of BigFix?"
+In the `Playground` select our new UC function from `Tools -> Add Tool`, add a System Prompt like the following and start asking your first question: `What are the competitors of BigFix?`
 
 ```
 Purpose: Assist users in getting companies/organizations info.
@@ -134,7 +138,7 @@ Parameters:
 - Max results
 
 Data Sources:
-- Use the find_competitors API when requested with questions about company's competitors
+- Use the find_competitors API when requested with questions about company's competitors.
 
 Actions:
 1. Retrieve company info
@@ -148,13 +152,22 @@ Sample Questions:
 ```
 
 The LLM will use the UC function to retrieve the information from Neo4J and it will prompt the natural language response.
-Note it is possible to use many Tools at the same time, giving the possibility to create more complex agents.
+
+![Playground Results](screenshots/playground1.png)
+
+Note: it is possible to use many Tools at the same time, giving the possibility to create more complex agents.
 
 Now that we tested the Agent capabilities, we are ready to deploy it.
 
-From the `Get Code` button, click on `Create Agent Notebook`, then follow the steps (replace all the TODOs).
+From the `Get Code` button, click on `Create Agent Notebook`, then, follow the steps (replace all the TODOs).
 
-By running all the cells, the model will be available under the `Serving` tab and it will be possible to click on `Use in Playground` to test it for the last time.
+By running all the cells, the model will be available under the `Serving` tab.
+
+![Serving Page](screenshots/serving1.png)
+
+Finally it will be possible to click on `Try in Playground` to test it for the last time.
+
+![Try in Playground](screenshots/serving2.png)
 
 Once the test is over, click on the `Get Code` button to access the `Curl` and `Python APIs` (a Databricks Token must be set to use the APIs).
 Going on it will be possible to use the Agent using the provided APIs!
